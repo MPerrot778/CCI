@@ -1,6 +1,8 @@
-import image_map
+import Level1.q1A.image_map
+from math import sqrt
 
 EMPTY_COLOR = ""
+
 
 class Drone:
     def __init__(self, game_map: image_map):
@@ -19,7 +21,7 @@ class Drone:
         return self.hopper
 
     def get_max_hopper_size(self):
-        return len(self.hopper) // 2
+        return sqrt(self.size ** 3) // 2
 
     def add_block_to_hopper(self, color):
         if self.get_max_hopper_size() >= self.size:
