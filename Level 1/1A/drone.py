@@ -46,11 +46,25 @@ class Drone:
         pass
 
     def take(self) -> int:
+        """
+        Takes a block at the top of the current (x, y) position and adds it to the hopper.
+        :return: The time elapsed
+        """
         for z in range(size - 1, 0, -1):
             if self.game_map[self.position[0]][self.position[1]][z] is not None:
-                self.add_block_to_hopper(self.game_map.scrambled[self.position[0]][self.position[1]][z])
+                color = self.game_map.scrambled[self.position[0]][self.position[1]][z]
+                self.add_block_to_hopper(color)
                 self.game_map.scrambled[position[0]][position[1]][z] = None
                 break
+        else:
+            raise Exception("Can't take block here, no block found")
+
+        if self.last_touched_color == color:
+            time_elapsed = 2
+        else:
+            time_elapsed = 3
+        self.last_touched_color = color
+        return time_elapsed
 
     def place(self, color, altitude) -> int:
         # validate the altitude is not under existing blocks
