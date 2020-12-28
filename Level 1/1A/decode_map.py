@@ -1,4 +1,4 @@
-class decode_map:
+class decodeMap:
 
     def __init__(self,inFile):
 
