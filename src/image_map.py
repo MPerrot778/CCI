@@ -7,17 +7,17 @@ class ImageMap:
     def __init__(self, img_map):
         self.img_map = img_map
 
+    # Image map getter
+
     def get_imageSize(self):
         return(len(self.img_map))
 
-    # Image map getter
-    
     def get_2dImage(self,layer):
         return(self.img_map[layer])
-    
+
     def get_3d(self):
         return self.img_map
-    
+
     def get_pixelColor(self,coordinates):
         return self.img_map[coordinates[0]][coordinates[1]][coordinates[2]]
 
@@ -27,6 +27,12 @@ class ImageMap:
         """
         pass
 
+    def get_empty_positions(self) -> list:
+        """
+        Finds the (x,y) positions where there are no blocks
+        :return: The list of positions
+        """
+
     def is_position_accessible(self, position) -> bool:
         """
         Validates if we can take a block at the position.
@@ -34,9 +40,8 @@ class ImageMap:
         :return: True if the position is valid
         """
         pass
- 
+
     # Image map setter
 
     def set_pixelColor(self,coordinates,color):
         self.img_map[coordinates[0]][coordinates[1]][coordinates[2]] = color
-    
