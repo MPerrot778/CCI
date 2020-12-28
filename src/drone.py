@@ -70,6 +70,13 @@ class Drone:
         return time_elapsed
 
     def place(self, color, altitude) -> int:
+        """
+        Places a block at the current (x,y) position
+        :param color: The color of the block
+        :param altitude: The desired altitude
+        :return: The time elapsed
+        """
+
         # validate the altitude is not under existing blocks
         for z in range(self.size - 1, altitude, -1):
             if self.__get_pixel_color(z) is not None:
