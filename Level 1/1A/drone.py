@@ -50,6 +50,7 @@ class Drone:
             if self.game_map[self.position[0]][self.position[1]][z] is not None:
                 self.add_block_to_hopper(self.game_map.scrambled[self.position[0]][self.position[1]][z])
                 self.game_map.scrambled[position[0]][position[1]][z] = None
+                break
 
     def place(self, color, altitude) -> int:
         # validate the altitude is not under existing blocks
