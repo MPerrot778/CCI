@@ -1,4 +1,4 @@
-class imageMap:
+class ImageMap:
 
     def __init__(self,img_map):
         
