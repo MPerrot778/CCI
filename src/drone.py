@@ -9,15 +9,15 @@ class Drone:
         self.game_map = initial_game_map
         self.size = len(self.game_map.get_imageSize())
         self.hopper = []
-        self.memory = ["" for _ in range(self.size) for _ in range(self.size) for _ in range(self.size)]
+        self.memory: ImageMap = ImageMap.create(self.size)
         # TODO: find initial position
         self.position = (0, 0)
         self.last_touched_color = None
 
-    def get_memory(self):
+    def get_memory(self) -> ImageMap:
         return self.memory
 
-    def get_hopper(self):
+    def get_hopper(self) -> list:
         return self.hopper
 
     def get_max_hopper_size(self):
@@ -37,7 +37,7 @@ class Drone:
         return color
 
     def add_block_to_memory(self, position, color):
-        self.memory[position[0]][position[1]][position[2]] = color
+        self.memory.set_pixelColor((position[0], position[1], position[2]), color)
 
     def move(self, delta) -> int:
         """
