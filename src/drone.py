@@ -1,13 +1,13 @@
-import Level1.q1A.image_map
+from src.image_map import ImageMap
 from math import sqrt
 
 EMPTY_COLOR = ""
 
 
 class Drone:
-    def __init__(self, game_map: image_map):
-        self.game_map = game_map
-        self.size = len(game_map.scrambled)
+    def __init__(self, initial_game_map: ImageMap):
+        self.game_map = initial_game_map
+        self.size = len(self.game_map.get_imageSize())
         self.hopper = []
         self.memory = ["" for _ in range(self.size) for _ in range(self.size) for _ in range(self.size)]
         # TODO: find initial position
@@ -32,7 +32,7 @@ class Drone:
         color = EMPTY_COLOR
         for z in range(self.size - 1, 0, -1):
             if color != EMPTY_COLOR:
-                color = self.game_map.scrambled[self.position[0]][self.position[1]][z]
+                color = self.__get_pixel_color(z)
                 break
         return color
 
@@ -53,11 +53,11 @@ class Drone:
         Takes a block at the top of the current (x, y) position and adds it to the hopper.
         :return: The time elapsed
         """
-        for z in range(size - 1, 0, -1):
-            if self.game_map[self.position[0]][self.position[1]][z] is not None:
-                color = self.game_map.scrambled[self.position[0]][self.position[1]][z]
+        for z in range(self.size - 1, 0, -1):
+            if self.__get_pixel_color(z) is not None:
+                color = self.__get_pixel_color(z)
                 self.add_block_to_hopper(color)
-                self.game_map.scrambled[position[0]][position[1]][z] = None
+                self.__set_pixel_color(z, None)
                 break
         else:
             raise Exception("Can't take block here, no block found")
@@ -72,7 +72,7 @@ class Drone:
     def place(self, color, altitude) -> int:
         # validate the altitude is not under existing blocks
         for z in range(self.size - 1, altitude, -1):
-            if self.game_map[self.position[0]][self.position[1]][z] is not None:
+            if self.__get_pixel_color(z) is not None:
                 raise Exception("Can't place a block there, already full")
 
         # find the block color in the hopper
@@ -83,7 +83,6 @@ class Drone:
         else:
             raise Exception("Color not found in hopper")
 
-        self.game_map.scrambled[self.position[0]][self.position[1]][altitude] = color
         del self.hopper[hopper_index]
 
         if self.last_touched_color == color:
@@ -92,3 +91,9 @@ class Drone:
             time_elapsed = 3
         self.last_touched_color = color
         return time_elapsed
+
+    def __get_pixel_color(self, altitude):
+        return self.game_map.get_pixelColor((self.position[0], self.position[1], altitude))
+
+    def __set_pixel_color(self, altitude, color):
+        self.game_map.set_pixelColor((self.position[0], self.position[1], altitude), color)
