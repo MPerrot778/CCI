@@ -39,11 +39,12 @@ class Drone:
 
     def move(self, delta) -> int:
         """
-
+        Moves in one direction from 1 and returns the time elapsed.
         :param delta: the position change (x,y)
         :return: The time for the move
         """
-        pass
+        self.position = (self.position[0] + delta[0], self.position[1] + delta[1])
+        return 1
 
     def take(self) -> int:
         """
