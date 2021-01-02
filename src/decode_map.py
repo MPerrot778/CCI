@@ -1,6 +1,8 @@
-class DecodeMap:
+from src.image_map import ImageMap
 
-    def __init__(self,inFile):
+
+class DecodeMap:
+    def __init__(self, inFile):
 
         self.inFile = inFile
 
@@ -34,7 +36,7 @@ class DecodeMap:
                     coords = tuple(map(int,part_line[0].split(',')))
 
                     if(pixel == ""):
-                        pixel_tuple = ()
+                        pixel_tuple = None
                     else:
                         pixel_tuple = tuple(map(int,pixel.split('_')))
 
@@ -45,7 +47,7 @@ class DecodeMap:
                     coords = tuple(map(int,part_line[0].split(',')))
 
                     if(pixel == ""):
-                        pixel_tuple = ()
+                        pixel_tuple = None
                     else:
                         pixel_tuple = tuple(map(int,pixel.split('_')))
 
@@ -53,4 +55,4 @@ class DecodeMap:
 
                 count += 1
         
-        return unscrambled_img, scrambled_img    
+        return ImageMap(unscrambled_img), ImageMap(scrambled_img)
