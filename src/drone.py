@@ -7,7 +7,7 @@ EMPTY_COLOR = ""
 class Drone:
     def __init__(self, initial_game_map: ImageMap):
         self.game_map = initial_game_map
-        self.size = len(self.game_map.get_imageSize())
+        self.size = self.game_map.get_imageSize()
         self.hopper = []
         self.memory: ImageMap = ImageMap.create(self.size)
         # TODO: find initial position
