@@ -23,6 +23,9 @@ class DecodeMap:
             scrambled_img  = []
 
             for line in lines:
+                if line == '\n':
+                    # Avoid parsing trailing new lines in medium.txt
+                    continue
                 part_line = line.partition("=")
 
                 if(count == 1):
