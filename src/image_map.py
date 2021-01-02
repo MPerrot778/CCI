@@ -45,3 +45,12 @@ class ImageMap:
 
     def set_pixelColor(self,coordinates,color):
         self.img_map[coordinates[0]][coordinates[1]][coordinates[2]] = color
+
+    def __eq__(self, other):
+        equal = True
+        for x in range(self.get_imageSize()):
+            for y in range(self.get_imageSize()):
+                for z in range(self.get_imageSize()):
+                    if self.img_map[x][y][z] != other[x][y][z]:
+                        equal = False
+        return equal
