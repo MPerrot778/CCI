@@ -77,20 +77,27 @@ class Bot:
                 self.cost += self.drone.move((self.drone.position[0], y))
 
     def reconstruire(self):
-        for x in range(self.dimension -1, -1, -1):
-            for y in range(self.dimension):
-                self.move_drone((x,y))
-                colors = self.get_stack_color((x,y))
-                needed_colors = sorted(colors)
-                for color in needed_colors:
-                    next_pos = self.get_closest_color(color)
-                    self.move_drone(next_pos)
-                    self.drone.take()
-                self.move_drone((x,y))
-                for color in colors:
-                    self.drone.drop(color)
-                self.validated_map[x][y] = True
+        for i in range(3):
+            for x in range(self.dimension - 1, -1, -1):
+                for y in range(self.dimension):
+                    if self.validated_map[x][y]:
+                        continue
 
+                    colors = self.get_stack_color((x, y))
+                    if self.drone.get_memory().get_pixelColor((x, y, 0)) is None:
+                        self.move_drone((x, y))
+                        needed_colors = sorted(colors)
+                        for color in needed_colors:
+                            next_pos = self.get_closest_color(color)
+                            self.move_drone(next_pos)
+                            self.drone.take()
+                        self.move_drone((x, y))
+                        for color in colors:
+                            self.drone.drop(color)
+                        self.validated_map[x][y] = True
+                    else:
+                        if self.drone.get_memory().get_3d()[x][y] == colors:
+                            self.validated_map[x][y] = True
 
     def get_stack_color(self, position):
         column = self.unscrambled_map.get_3d()[position[0]][position[1]]
