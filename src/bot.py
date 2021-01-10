@@ -28,7 +28,8 @@ class Bot:
                 y_range = range(self.dimension - 1, -1 , -1)
             for y in y_range:
                 self.move_drone((x,y))
-                while self.drone.get_top_color() != None:
+                while self.drone.get_top_color() is not None \
+                        and len(self.drone.get_hopper()) < self.drone.get_max_hopper_size():
                     self.drone.take()
 
                 if x != 0 or y != 0:
