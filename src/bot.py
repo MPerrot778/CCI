@@ -2,8 +2,9 @@ import src.image_map
 from src.drone import Drone
 from src.image_map import ImageMap
 
+
 class Bot:
-    def __init__(self, map:ImageMap, drone:Drone):
+    def __init__(self, map: ImageMap, drone: Drone):
         self.unscrambled_map = map
         self.drone = drone
         self.dimension = self.drone.size
@@ -20,14 +21,14 @@ class Bot:
         pass
 
     def filter_map(self):
-        last_color_stack_position = (0,0)
+        last_color_stack_position = (0, 0)
         position_counter = 0
         for x in range(self.dimension):
             y_range = range(self.dimension)
-            if x%2 == 1:
-                y_range = range(self.dimension - 1, -1 , -1)
+            if x % 2 == 1:
+                y_range = range(self.dimension - 1, -1, -1)
             for y in y_range:
-                self.move_drone((x,y))
+                self.move_drone((x, y))
                 while self.drone.get_top_color() is not None \
                         and len(self.drone.get_hopper()) < self.drone.get_max_hopper_size():
                     self.drone.take()
@@ -35,17 +36,20 @@ class Bot:
                 if x != 0 or y != 0:
                     for k in range(self.dimension):
                         for l in range(self.dimension):
-                            if self.drone.get_memory().get_upper_view()[k][l] in self.drone.get_hopper() and self.drone.get_memory().get_pixelColor((k, l, self.dimension-1)) is None:
-                                self.move_drone((k,l))
+                            if self.drone.get_memory().get_upper_view()[k][
+                                l] in self.drone.get_hopper() and self.drone.get_memory().get_pixelColor(
+                                (k, l, self.dimension - 1)) is None:
+                                self.move_drone((k, l))
                                 most_present_color = self.drone.get_memory().get_upper_view()[k][l]
                                 while most_present_color in self.drone.get_hopper() \
-                                        and self.drone.get_memory().get_pixelColor((k, l, self.dimension-1)) is None:
+                                        and self.drone.get_memory().get_pixelColor((k, l, self.dimension - 1)) is None:
                                     self.drone.drop(most_present_color)
                     if len(self.drone.get_hopper()) != 0:
                         most_present_color = self.drone.get_hopper()[0]
                         self.move_drone(last_color_stack_position)
                         while most_present_color in self.drone.get_hopper() \
-                                and self.drone.get_memory().get_pixelColor((last_color_stack_position[0], last_color_stack_position[1], self.dimension-1)) is None:
+                                and self.drone.get_memory().get_pixelColor(
+                            (last_color_stack_position[0], last_color_stack_position[1], self.dimension - 1)) is None:
                             self.drone.drop(most_present_color)
                         position_counter += 1
 
@@ -54,8 +58,6 @@ class Bot:
                         else:
                             last_position_y = self.dimension - 1 - (position_counter % self.dimension)
                         last_color_stack_position = (position_counter // self.dimension, last_position_y)
-
-
 
     def move_drone(self, position):
         # Move x
@@ -102,46 +104,41 @@ class Bot:
         """
         Retourne le tuple de la position de la couleur similaire la plus proche
         """
-        best_pos = (0,0)
+        best_pos = (0, 0)
         delta = 999
         for x in range(self.dimension):
             for y in range(self.dimension):
                 if self.drone.get_memory().get_upper_view()[x][y] == color and not self.validated_map[x][y]:
-                    new_delta = abs(self.drone.position[0]-x) + abs(self.drone.position[1] - y)
+                    new_delta = abs(self.drone.position[0] - x) + abs(self.drone.position[1] - y)
                     if delta >= new_delta:
                         delta = new_delta
-                        best_pos = (x,y)
+                        best_pos = (x, y)
         return best_pos
 
     def create_hole(self):
-        for i in range(self.dimension): #Position en x
-            for j in range(self.dimension): #Position en y
-                if all(self.unscrambled_map.get_empty_positions(((i, j, k))) for k in range(self.dimension)):  #Si toutes les cases d'une colonne sont vides, la colonne est considérée comme validée
+        for i in range(self.dimension):  # Position en x
+            for j in range(self.dimension):  # Position en y
+                if all(self.unscrambled_map.get_empty_positions(((i, j, k))) for k in range(
+                        self.dimension)):  # Si toutes les cases d'une colonne sont vides, la colonne est considérée comme validée
                     self.validated_map[i][j] = True
 
-
-
-        for i in range(self.dimension): #Position en x
-            for j in range(self.dimension): #Position en y
-                #On se déplace dans le coin en haut à gauche pour commencer
+        for i in range(self.dimension):  # Position en x
+            for j in range(self.dimension):  # Position en y
+                # On se déplace dans le coin en haut à gauche pour commencer
                 self.move_drone(i, j)
-                while (self.drone.get_top_color() != None): #On s'assure que la colonne contienne au moins un bloc
+                while (self.drone.get_top_color() != None):  # On s'assure que la colonne contienne au moins un bloc
                     self.drone.take()
-                while len(self.drone.get_hopper()) != 0: #Si la colonne n'est pas vide, on poursuit
-                    for k in range(self.dimension): #Position en z
+                while len(self.drone.get_hopper()) != 0:  # Si la colonne n'est pas vide, on poursuit
+                    for k in range(self.dimension):  # Position en z
                         coordinates = (i, j, k)
                         if self.unscrambled_map.get_pixelColor(coordinates) != None:
                             couleur = self.unscrambled_map.get_pixelColor(coordinates)
                             self.drone.place(couleur, k)
 
-
-
-
     def move(self):
-        #filtre des couleurs
+        # filtre des couleurs
         self.filter_map()
-        #Reconstruction
+        # Reconstruction
         self.reconstruire()
-        #Faire les trous
-        #self.create_hole()
-
+        # Faire les trous
+        # self.create_hole()
