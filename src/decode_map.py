@@ -45,7 +45,7 @@ class DecodeMap:
 
                     unscrambled_img[coords[0]][coords[1]][coords[2]] = pixel_tuple
 
-                elif(count > max_count+4):
+                elif(count > max_count+3):
                     pixel = part_line[2].strip('"\n')
                     coords = tuple(map(int,part_line[0].split(',')))
 
