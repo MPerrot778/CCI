@@ -1,6 +1,6 @@
 import src.image_map
-from drone import Drone
-from image_map import ImageMap
+from src.drone import Drone
+from src.image_map import ImageMap
 
 class Bot:
     def __init__(self, map:ImageMap, drone:Drone):
