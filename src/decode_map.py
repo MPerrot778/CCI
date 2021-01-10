@@ -31,8 +31,8 @@ class DecodeMap:
                 if(count == 1):
                     n = int(part_line[2])
                     max_count = n*n*n
-                    unscrambled_img = [[[() for k in range(n)] for j in range(n)] for i in range(n)]
-                    scrambled_img  = [[[() for k in range(n)] for j in range(n)] for i in range(n)]
+                    unscrambled_img = [[[None for k in range(n)] for j in range(n)] for i in range(n)]
+                    scrambled_img  = [[[None for k in range(n)] for j in range(n)] for i in range(n)]
 
                 elif(count > 1 and count <= max_count):
                     pixel = part_line[2].strip('"\n')
