@@ -2,7 +2,8 @@ class ImageMap:
 
     @staticmethod
     def create(size):
-        pass
+        empty_img = [[[None for k in range(size)] for j in range(size)] for i in range(size)]
+        return ImageMap(empty_img)
 
     def __init__(self, img_map):
         self.img_map = img_map
@@ -47,9 +48,9 @@ class ImageMap:
         img_size = self.get_imageSize()
         empty_list = []
 
-        for i in range(imgSize):
-            for j in range(imgSize):
-                for k in range(imgSize):
+        for i in range(img_size):
+            for j in range(img_size):
+                for k in range(img_size):
                     pixel = self.get_pixelColor((i,j,k))
                     if(pixel == None):
                         empty_list += [(i,j,k)]
