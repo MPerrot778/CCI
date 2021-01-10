@@ -1,7 +1,7 @@
 from src.image_map import ImageMap
 from math import sqrt
 
-EMPTY_COLOR = ""
+EMPTY_COLOR = None
 
 
 class Drone:
