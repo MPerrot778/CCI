@@ -108,6 +108,13 @@ class Bot:
     def create_hole(self):
         for i in range(self.dimension): #Position en x
             for j in range(self.dimension): #Position en y
+                if all(self.unscrambled_map.get_empty_positions(((i, j, k))) for k in range(self.dimension)):  #Si toutes les cases d'une colonne sont vides, la colonne est considérée comme validée
+                    self.validated_map[i][j] = True
+
+
+
+        for i in range(self.dimension): #Position en x
+            for j in range(self.dimension): #Position en y
                 #On se déplace dans le coin en haut à gauche pour commencer
                 self.move_drone(i, j)
                 while (self.drone.get_top_color() != None): #On s'assure que la colonne contienne au moins un bloc
