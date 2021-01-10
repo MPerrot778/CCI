@@ -44,17 +44,17 @@ class ImageMap:
         Finds the (x,y) positions where there are no blocks
         :return: The list of positions
         """
-        imgSize = self.get_imageSize()
-        emptyList = []
+        img_size = self.get_imageSize()
+        empty_list = []
 
         for i in range(imgSize):
             for j in range(imgSize):
                 for k in range(imgSize):
                     pixel = self.get_pixelColor((i,j,k))
                     if(pixel == None):
-                        emptyList += [(i,j,k)]
+                        empty_list += [(i,j,k)]
 
-        return emptyList
+        return empty_list
 
     # Image map setter
 
@@ -87,12 +87,12 @@ class ImageMap:
             elif(position[1] == 0 or position[1] == self.get_imageSize()-1):
                 return True
             else:
-                northPixel = self.get_pixelColor((position[0],position[1]-1,position[2]))
-                southPixel = self.get_pixelColor((position[0],position[1]+1,position[2]))
-                eastPixel = self.get_pixelColor((position[0]-1,position[1],position[2]))
-                westPixel = self.get_pixelColor((position[0],position[1]+1,position[2]))
+                north_pixel = self.get_pixelColor((position[0],position[1]-1,position[2]))
+                south_pixel = self.get_pixelColor((position[0],position[1]+1,position[2]))
+                east_pixel = self.get_pixelColor((position[0]-1,position[1],position[2]))
+                west_pixel = self.get_pixelColor((position[0],position[1]+1,position[2]))
 
-                if(northPixel == None or southPixel == None or eastPixel == None or westPixel == None):
+                if(north_pixel == None or south_pixel == None or east_pixel == None or west_pixel == None):
                     return True
                 else:
                     return False
