@@ -69,6 +69,19 @@ class Drone:
         self.last_touched_color = color
         return time_elapsed
 
+    def drop(self, color):
+        """
+        Drops the block of the right color at the top of the highest block at the current position
+        :param color: The color of the height
+        :return: The time elapsed
+        """
+        if self.__get_pixel_color(self.size - 1) is not None:
+            raise Exception("Can't place a block there, already full")
+
+        for z in range(self.size - 1, -1, -1):
+            if self.__get_pixel_color(z) is not None:
+                return self.place(color, z + 1)
+
     def place(self, color, altitude) -> int:
         """
         Places a block at the current (x,y) position
