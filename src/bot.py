@@ -53,15 +53,15 @@ class Bot:
             for x in range(self.drone.position[0] + 1, position[0] + 1):
                 self.cost += self.drone.move((x, self.drone.position[1]))
         else:
-            for x in range(position[0] + 1, self.drone.position[0] + 1, -1):
+            for x in range(self.drone.position[0] - 1, position[0] - 1, -1):
                 self.cost += self.drone.move((x, self.drone.position[1]))
-        
+
         # Move y
         if self.drone.position[1] < position[1]:
             for y in range(self.drone.position[1] + 1, position[1] + 1):
                 self.cost += self.drone.move((self.drone.position[0], y))
         else:
-            for y in range(position[1] + 1, self.drone.position[1] + 1, -1):
+            for y in range(self.drone.position[1] - 1, position[1] - 1, -1):
                 self.cost += self.drone.move((self.drone.position[0], y))
 
     def reconstruire(self):
