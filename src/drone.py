@@ -105,6 +105,8 @@ class Drone:
 
         del self.hopper[hopper_index]
 
+        self.__set_pixel_color(altitude, color)
+
         if self.last_touched_color == color:
             time_elapsed = 2
         else:
