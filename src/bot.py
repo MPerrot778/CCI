@@ -27,7 +27,7 @@ class Bot:
                 self.move_drone((x,y))
                 while self.drone.get_top_color() != None:
                     self.drone.take()
-                if x != 0 and y != 0:
+                if x != 0 or y != 0:
                     for k in range(self.dimension):
                         for l in range(self.dimension):
                             if self.drone.get_memory().get_upper_view()[k][l] in self.drone.get_hopper() and self.drone.get_memory().get_pixel_color((k, l, self.dimension-1)) != None:
@@ -62,18 +62,19 @@ class Bot:
                 self.cost += self.drone.move((self.drone.position[0], y))
 
     def reconstruire(self):
-        for i in range(0,self.dimension,-1):
-            for j in range(self.dimension):
-                self.move_drone((i,j))
-                colors = self.get_stack_color((i,j))
+        for x in range(0,self.dimension,-1):
+            for y in range(self.dimension):
+                self.move_drone((x,y))
+                colors = self.get_stack_color((x,y))
                 needed_colors = sorted(colors)
                 for color in needed_colors:
                     next_pos = self.get_closest_color(color)
                     self.move_drone(next_pos)
                     self.drone.take()
-                self.move_drone((i,j))
+                self.move_drone((x,y))
                 for color in colors:
                     self.drone.drop(color)
+                self.validated_map[x][y] = True
                 
 
     def get_stack_color(self, position):
@@ -88,7 +89,16 @@ class Bot:
         """
         Retourne le tuple de la position de la couleur similaire la plus proche
         """
-        return (0, 0)
+        best_pos = (0,0)
+        delta = 999
+        for x in range(self.dimension):
+            for y in range(self.dimension):
+                if self.drone.get_memory().get_upper_view()[x][y] == color and not self.validated_map[x][y]:
+                    new_delta = abs(self.drone.position[0]-x) + abs(self.drone.position[1] - y)
+                    if delta >= new_delta:
+                        delta = new_delta
+                        best_pos = (x,y)
+        return best_pos
 
     def create_hole(self):
         pass
