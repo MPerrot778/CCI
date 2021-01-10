@@ -12,16 +12,12 @@ if __name__ == '__main__':
 
     map_decoder = DecodeMap(arguments.map)
 
+    displayer = Displayer()
+
     # The Drone has access to the current game map but can see only the top layer
-    drone = Drone(map_decoder.scrambled)
+    drone = Drone(map_decoder.scrambled, displayer)
 
     # The bot (AI) knows the end game map (unscrambled) and can interact with the drone
     bot = Bot(map_decoder.unscrambled, drone)
 
-    # TODO: bot playing loop
-
-    # Example usage of Displayer
-    displayer = Displayer()
-    displayer.display_game_map(map_decoder.scrambled)
-    displayer.display_game_map(map_decoder.unscrambled)
     displayer.stop()

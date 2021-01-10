@@ -1,11 +1,11 @@
 from src.image_map import ImageMap
-from math import sqrt
+from math import sqrt, floor
 
 EMPTY_COLOR = None
 
 
 class Drone:
-    def __init__(self, initial_game_map: ImageMap):
+    def __init__(self, initial_game_map: ImageMap, displayer=None):
         self.game_map = initial_game_map
         self.size = self.game_map.get_imageSize()
         self.hopper = []
@@ -13,6 +13,9 @@ class Drone:
         # TODO: find initial position
         self.position = (0, 0)
         self.last_touched_color = None
+        self.displayer = displayer
+
+        self.__display()
 
     def get_memory(self) -> ImageMap:
         return self.memory
@@ -66,6 +69,7 @@ class Drone:
         else:
             time_elapsed = 3
         self.last_touched_color = color
+        self.__display()
         return time_elapsed
 
     def drop(self, color):
@@ -112,7 +116,13 @@ class Drone:
         else:
             time_elapsed = 3
         self.last_touched_color = color
+
+        self.__display()
         return time_elapsed
+
+    def __display(self):
+        if self.displayer is not None:
+            self.displayer.display_game_map(self.game_map)
 
     def __get_pixel_color(self, altitude):
         return self.game_map.get_pixelColor((self.position[0], self.position[1], altitude))
