@@ -39,13 +39,13 @@ class Drone:
     def add_block_to_memory(self, position, color):
         self.memory.set_pixelColor((position[0], position[1], position[2]), color)
 
-    def move(self, delta) -> int:
+    def move(self, position) -> int:
         """
         Moves in one direction from 1 and returns the time elapsed.
-        :param delta: the position change (x,y)
+        :param position: the new position (x,y)
         :return: The time for the move
         """
-        self.position = (self.position[0] + delta[0], self.position[1] + delta[1])
+        self.position = position
         return 1
 
     def take(self) -> int:
