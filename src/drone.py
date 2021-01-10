@@ -1,7 +1,7 @@
 from src.image_map import ImageMap
 from math import sqrt
 
-EMPTY_COLOR = ""
+EMPTY_COLOR = None
 
 
 class Drone:
@@ -33,11 +33,9 @@ class Drone:
         for z in range(self.size - 1, 0, -1):
             if color != EMPTY_COLOR:
                 color = self.__get_pixel_color(z)
+                self.memory.set_pixelColor((self.position[0], self.position[1], z), color)
                 break
         return color
-
-    def add_block_to_memory(self, position, color):
-        self.memory.set_pixelColor((position[0], position[1], position[2]), color)
 
     def move(self, position) -> int:
         """
@@ -58,6 +56,7 @@ class Drone:
                 color = self.__get_pixel_color(z)
                 self.add_block_to_hopper(color)
                 self.__set_pixel_color(z, None)
+                self.memory.set_pixelColor((self.position[0], self.position[1], z), None)
                 break
         else:
             raise Exception("Can't take block here, no block found")
@@ -104,6 +103,9 @@ class Drone:
             raise Exception("Color not found in hopper")
 
         del self.hopper[hopper_index]
+
+        self.__set_pixel_color(altitude, color)
+        self.memory.set_pixelColor((self.position[0], self.position[1], altitude), color)
 
         if self.last_touched_color == color:
             time_elapsed = 2
