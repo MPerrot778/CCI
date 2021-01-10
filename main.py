@@ -19,6 +19,6 @@ if __name__ == '__main__':
 
     # The bot (AI) knows the end game map (unscrambled) and can interact with the drone
     bot = Bot(map_decoder.unscrambled, drone)
-    bot.filter_map()
+    bot.move()
 
     displayer.stop()

@@ -8,7 +8,7 @@ class Bot:
         self.drone = drone
         self.dimension = self.drone.size
         self.cost = 0
-        self.validated_map = [False for _ in range(self.drone.size) for _ in range(self.drone.size)]
+        self.validated_map = [[False for _ in range(self.drone.size)] for _ in range(self.drone.size)]
 
     def get_map(self):
         pass
@@ -67,7 +67,7 @@ class Bot:
                 self.cost += self.drone.move((self.drone.position[0], y))
 
     def reconstruire(self):
-        for x in range(0,self.dimension,-1):
+        for x in range(self.dimension -1, -1, -1):
             for y in range(self.dimension):
                 self.move_drone((x,y))
                 colors = self.get_stack_color((x,y))
@@ -83,10 +83,10 @@ class Bot:
 
 
     def get_stack_color(self, position):
-        column = self.unscrambled_map[position[0]][position[1]]
+        column = self.unscrambled_map.get_3d()[position[0]][position[1]]
         out = []
         for element in column:
-            if element != None:
+            if element is not None:
                 out.append(element)
         return out
 
@@ -128,5 +128,5 @@ class Bot:
         #Reconstruction
         self.reconstruire()
         #Faire les trous
-        self.create_hole()
+        #self.create_hole()
 
