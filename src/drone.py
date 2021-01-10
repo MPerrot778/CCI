@@ -33,9 +33,9 @@ class Drone:
 
     def get_top_color(self):
         color = EMPTY_COLOR
-        for z in range(self.size - 1, 0, -1):
+        for z in range(self.size - 1, -1, -1):
+            color = self.__get_pixel_color(z)
             if color != EMPTY_COLOR:
-                color = self.__get_pixel_color(z)
                 self.memory.set_pixelColor((self.position[0], self.position[1], z), color)
                 break
         return color
@@ -54,7 +54,7 @@ class Drone:
         Takes a block at the top of the current (x, y) position and adds it to the hopper.
         :return: The time elapsed
         """
-        for z in range(self.size - 1, 0, -1):
+        for z in range(self.size - 1, -1, -1):
             if self.__get_pixel_color(z) is not None:
                 color = self.__get_pixel_color(z)
                 self.add_block_to_hopper(color)
