@@ -1,8 +1,8 @@
 import src.image_map
 
 class Bot:
-    def __init__(self, map, drone):
-        self.unscrambled_map = map
+    def __init__(self, image_map, drone):
+        self.unscrambled_map = image_map
         self.drone = drone
         self.dimension = self.drone.size
         self.cost = 0
@@ -27,7 +27,6 @@ class Bot:
                 self.move_drone((x,y))
                 while self.drone.get_top_color() != None:
                     self.drone.take()
-
                 if x != 0 and y != 0:
                     for k in range(self.dimension):
                         for l in range(self.dimension):
@@ -63,24 +62,42 @@ class Bot:
                 self.cost += self.drone.move(self.drone.position[0], y)
 
     def reconstruire(self):
-        pass
-        #for i in range(0,self.dimension,-1):
-           # for j in range(self.dimension):
+        for i in range(0,self.dimension,-1):
+            for j in range(self.dimension):
+                self.move_drone((i,j))
+                colors = self.get_stack_color((i,j))
+                needed_colors = sorted(colors)
+                for color in needed_colors:
+                    next_pos = self.get_closest_color(color)
+                    self.move_drone(next_pos)
+                    self.drone.take()
+                self.move_drone((i,j))
+                for color in colors:
+                    self.drone.drop(color)
+                
 
+    def get_stack_color(self, position):
+        column = self.unscrambled_map[position[0]][position[1]]
+        out = []
+        for element in column:
+            if element != None:
+                out.append(element)
+        return out
 
-
+    def get_closest_color(self, color):
+        """
+        Retourne le tuple de la position de la couleur similaire la plus proche
+        """
+        return (0, 0)
 
     def create_hole(self):
         pass
 
     def move(self):
         #filtre des couleurs
-        
-
-
+        self.filter_map()
         #Reconstruction
-        
-
+        self.reconstruire()
         #Faire les trous
-        pass
+        self.create_hole()
 
