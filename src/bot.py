@@ -9,7 +9,7 @@ class Bot:
         self.dimension = self.drone.size
         self.cost = 0
         self.validated_map = [False for _ in range(self.drone.size) for _ in range(self.drone.size)]
-        
+
     def get_map(self):
         pass
 
@@ -18,7 +18,7 @@ class Bot:
         Returns the current Game map.
         """
         pass
-        
+
     def filter_map(self):
         last_postion = (0,0)
         for x in range(self.dimension):
@@ -29,24 +29,26 @@ class Bot:
                 self.move_drone((x,y))
                 while self.drone.get_top_color() != None:
                     self.drone.take()
-                if x != 0 or y != 0:
 
+                if x != 0 or y != 0:
                     for k in range(self.dimension):
                         for l in range(self.dimension):
-                            if self.drone.get_memory().get_upper_view()[k][l] in self.drone.get_hopper() and self.drone.get_memory().get_pixelColor((k, l, self.dimension-1)) != None:
+                            if self.drone.get_memory().get_upper_view()[k][l] in self.drone.get_hopper() and self.drone.get_memory().get_pixelColor((k, l, self.dimension-1)) is None:
                                 self.move_drone((k,l))
                                 most_present_color = self.drone.get_memory().get_upper_view()[k][l]
-                                while most_present_color in self.drone.get_hopper():
+                                while most_present_color in self.drone.get_hopper() \
+                                        and self.drone.get_memory().get_pixelColor((k, l, self.dimension-1)) is None:
                                     self.drone.drop(most_present_color)
-                    if len(self.drone.get_hopper()) != 0: 
+                    if len(self.drone.get_hopper()) != 0:
                         most_present_color = self.drone.get_hopper()[0]
                         self.move_drone(last_postion)
-                        while most_present_color in self.drone.get_hopper():
+                        while most_present_color in self.drone.get_hopper() \
+                                and self.drone.get_memory().get_pixelColor((last_postion[0], last_postion[1], self.dimension-1)) is None:
                             self.drone.drop(most_present_color)
                 last_postion = (x,y)
 
 
-                            
+
     def move_drone(self, position):
         # Move x
         if self.drone.position[0] < position[0]:
