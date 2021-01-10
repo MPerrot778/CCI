@@ -24,10 +24,10 @@ class Drone:
         return self.hopper
 
     def get_max_hopper_size(self):
-        return sqrt(self.size ** 3) // 2
+        return floor(sqrt(self.size ** 3) // 2)
 
     def add_block_to_hopper(self, color):
-        if self.get_max_hopper_size() >= self.size:
+        if self.get_max_hopper_size() <= len(self.hopper):
             raise Exception("Hopper is full, can't add block to it!")
         self.hopper.append(color)
 
@@ -84,6 +84,9 @@ class Drone:
         for z in range(self.size - 1, -1, -1):
             if self.__get_pixel_color(z) is not None:
                 return self.place(color, z + 1)
+
+        # If the stack is empty, place the block at the bottom
+        return self.place(color, 0)
 
     def place(self, color, altitude) -> int:
         """
