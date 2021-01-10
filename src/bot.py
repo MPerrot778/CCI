@@ -20,7 +20,8 @@ class Bot:
         pass
 
     def filter_map(self):
-        last_postion = (0,0)
+        last_color_stack_position = (0,0)
+        position_counter = 0
         for x in range(self.dimension):
             y_range = range(self.dimension)
             if x%2 == 1:
@@ -41,11 +42,17 @@ class Bot:
                                     self.drone.drop(most_present_color)
                     if len(self.drone.get_hopper()) != 0:
                         most_present_color = self.drone.get_hopper()[0]
-                        self.move_drone(last_postion)
+                        self.move_drone(last_color_stack_position)
                         while most_present_color in self.drone.get_hopper() \
-                                and self.drone.get_memory().get_pixelColor((last_postion[0], last_postion[1], self.dimension-1)) is None:
+                                and self.drone.get_memory().get_pixelColor((last_color_stack_position[0], last_color_stack_position[1], self.dimension-1)) is None:
                             self.drone.drop(most_present_color)
-                last_postion = (x,y)
+                        position_counter += 1
+
+                        if (position_counter // self.dimension) % 2 == 0:
+                            last_position_y = position_counter % self.dimension
+                        else:
+                            last_position_y = self.dimension - 1 - (position_counter % self.dimension)
+                        last_color_stack_position = (position_counter // self.dimension, last_position_y)
 
 
 
