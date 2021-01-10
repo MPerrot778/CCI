@@ -1,11 +1,11 @@
 from src.image_map import ImageMap
-from math import sqrt
+from math import sqrt, floor
 
 EMPTY_COLOR = None
 
 
 class Drone:
-    def __init__(self, initial_game_map: ImageMap):
+    def __init__(self, initial_game_map: ImageMap, displayer=None):
         self.game_map = initial_game_map
         self.size = self.game_map.get_imageSize()
         self.hopper = []
@@ -13,6 +13,9 @@ class Drone:
         # TODO: find initial position
         self.position = (0, 0)
         self.last_touched_color = None
+        self.displayer = displayer
+
+        self.__display()
 
     def get_memory(self) -> ImageMap:
         return self.memory
@@ -21,18 +24,18 @@ class Drone:
         return self.hopper
 
     def get_max_hopper_size(self):
-        return sqrt(self.size ** 3) // 2
+        return floor(sqrt(self.size ** 3) // 2)
 
     def add_block_to_hopper(self, color):
-        if self.get_max_hopper_size() >= self.size:
+        if self.get_max_hopper_size() <= len(self.hopper):
             raise Exception("Hopper is full, can't add block to it!")
         self.hopper.append(color)
 
     def get_top_color(self):
         color = EMPTY_COLOR
-        for z in range(self.size - 1, 0, -1):
+        for z in range(self.size - 1, -1, -1):
+            color = self.__get_pixel_color(z)
             if color != EMPTY_COLOR:
-                color = self.__get_pixel_color(z)
                 self.memory.set_pixelColor((self.position[0], self.position[1], z), color)
                 break
         return color
@@ -51,7 +54,7 @@ class Drone:
         Takes a block at the top of the current (x, y) position and adds it to the hopper.
         :return: The time elapsed
         """
-        for z in range(self.size - 1, 0, -1):
+        for z in range(self.size - 1, -1, -1):
             if self.__get_pixel_color(z) is not None:
                 color = self.__get_pixel_color(z)
                 self.add_block_to_hopper(color)
@@ -66,6 +69,7 @@ class Drone:
         else:
             time_elapsed = 3
         self.last_touched_color = color
+        self.__display()
         return time_elapsed
 
     def drop(self, color):
@@ -80,6 +84,9 @@ class Drone:
         for z in range(self.size - 1, -1, -1):
             if self.__get_pixel_color(z) is not None:
                 return self.place(color, z + 1)
+
+        # If the stack is empty, place the block at the bottom
+        return self.place(color, 0)
 
     def place(self, color, altitude) -> int:
         """
@@ -112,7 +119,13 @@ class Drone:
         else:
             time_elapsed = 3
         self.last_touched_color = color
+
+        self.__display()
         return time_elapsed
+
+    def __display(self):
+        if self.displayer is not None:
+            self.displayer.display_game_map(self.game_map)
 
     def __get_pixel_color(self, altitude):
         return self.game_map.get_pixelColor((self.position[0], self.position[1], altitude))
