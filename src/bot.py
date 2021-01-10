@@ -1,8 +1,11 @@
-import image_map.py
+import src.image_map
+
 class Bot:
     def __init__(self, map, drone):
-        self.map = map
+        self.unscrambled_map = map
         self.drone = drone
+        self.dimension = self.drone.size
+        self.cost = 0
         self.validated_map = [False for _ in range(self.drone.size) for _ in range(self.drone.size)]
         
     def get_map(self):
@@ -16,31 +19,54 @@ class Bot:
         
     def filter_map(self):
         for i in range(self.dimension):
-            for j in range(self.dimension):#A modifier pour ligne pair a gauche et ligne impair a droite
-                #Move to position [i][j]
-                while self.map[i][j] != "blanc":
+            y_range = range(self.dimension)
+            if i%2 == 1:
+                y_range = range(self.dimension - 1, -1 , -1)
+            for j in y_range:
+                self.move_drone((i,j))
+                while self.drone.get_top_color() != None:
                     self.drone.take()
+
                 if i != 0 and j != 0:
-                    actual_known_map = self.drone.get_memory()
                     for k in range(self.dimension):
                         for l in range(self.dimension):
-                            if map.get_upper_view()[k][l] in self.drone.get_hopper(): #and map.get_upper_view() is not full:
-                                # Move to position [k][l]
-                                most_present_color = map.get_upper_view()[k][l]
+                            if self.drone.get_memory().get_upper_view()[k][l] in self.drone.get_hopper() and self.drone.get_memory().get_pixel_color((k, l, self.dimension-1)) != None:
+                                self.move_drone((k,l))
+                                most_present_color = self.drone.get_memory().get_upper_view()[k][l]
                                 while most_present_color in self.drone.get_hopper():
-                                    self.drone.drop(most_present_color) # Implementer une fonction qui drop le premier pixel de la couleur nommer quelle trouve dans le hopper
-                    if self.drone.get_hopper() not Empty: #Synthaxe incorrect
-                        most_present_color = self.drone.get_hopper()[0] # Implementer un tri du hopper()
-                        if most_present_color == map.get_upper_view()[k][l]:  
-                            # Move to position [i][j-1]
-                            while most_present_color == self.drone.get_hopper()[0]
-                                self.drone.drop(self.drone.get_hopper()[0]) # Implementer une fonction qui drop le premier pixel de la couleur nommer quelle trouve dans le hopper
+                                    self.drone.drop(most_present_color)
+                    if len(self.drone.get_hopper()) != 0: 
+                        most_present_color = self.drone.get_hopper()[0]  
+                        # Move to position [i][j-1]
+                        while most_present_color in self.drone.get_hopper():
+                            self.drone.drop(most_present_color)
 
-    def move_drone(drone, x, y):
-        pass
+
+                            
+    def move_drone(self, position):
+        # Move x
+        if self.drone.position[0] < position[0]:
+            for x in range(self.drone.position[0] + 1, position[0] + 1):
+                self.cost += self.drone.move(x, self.drone.position[1])
+        else:
+            for x in range(position[0] + 1, self.drone.position[0] + 1, -1):
+                self.cost += self.drone.move(x, self.drone.position[1])
+        
+        # Move y
+        if self.drone.position[1] < position[1]:
+            for y in range(self.drone.position[1] + 1, position[1] + 1):
+                self.cost += self.drone.move(self.drone.position[0], y)
+        else:
+            for y in range(position[1] + 1, self.drone.position[1] + 1, -1):
+                self.cost += self.drone.move(self.drone.position[0], y)
 
     def reconstruire(self):
-        pass                    
+        pass
+        #for i in range(0,self.dimension,-1):
+           # for j in range(self.dimension):
+
+
+
 
     def create_hole(self):
         pass
