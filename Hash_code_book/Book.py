@@ -13,4 +13,4 @@ class Book :
         return self.book_score > other.book_score
 
     def __ge__(self, other):
-        self.book_score >= other.book_score
+        return self.book_score >= other.book_score
