@@ -9,6 +9,7 @@ class Solver :
         self.problem = problem
         self.books_read = set()
         self.days_left = problem.D
+        self.score_tot = 0
 
     def get_solution(self):
         while self.days_left > 0:
@@ -30,6 +31,7 @@ class Solver :
                         temp_book = book_not_read.pop()
                         book_to_read.append(temp_book)
                         self.books_read.add(temp_book)
+                        self.score += temp_book.book_score
             self.lib_read.append((best_lib.library_id, len(book_to_read), book_to_read))
             self.A += 1
             self.days_left -= best_lib.T
