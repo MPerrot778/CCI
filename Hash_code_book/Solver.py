@@ -12,7 +12,7 @@ class Solver :
 
     def get_solution(self):
         while self.days_left > 0:
-            best_score = 1
+            best_score = 0
             best_lib = None
             for lib in self.problem.libraries:
                 temp_score = self.get_library_score(lib.library_id)
