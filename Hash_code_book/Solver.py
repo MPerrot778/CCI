@@ -9,7 +9,6 @@ class Solver :
         self.problem = problem
         self.books_read = set()
         self.days_left = problem.D
-        pass
 
     def get_solution(self):
         while self.days_left > 0:
