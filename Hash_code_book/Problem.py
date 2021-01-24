@@ -17,6 +17,7 @@ class Problem :
         B = 0
         L = 0
         D = 0
+        library_count = 0
         with open(self.fileName,'r') as f :
             lines = f.readlines()
             row = 0
@@ -46,7 +47,8 @@ class Problem :
                         else:
                             for i in range(len(line)):
                                 books += [books_type[int(line[i])]]
-                            lib_list += [Library(N,T,M,books)]
+                            lib_list += [Library(library_count,N,T,M,books)]
+                            library_count += 1
                     row += 1
         return B,L,D,lib_list
 
