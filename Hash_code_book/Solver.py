@@ -1,4 +1,4 @@
-from Problem import *
+from Hash_code_book.Problem import *
 
 class Solver :
     def __init__(self, problem: Problem):
