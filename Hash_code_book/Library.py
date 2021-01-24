@@ -7,7 +7,7 @@ class Library :
         self.M = M # the number of books that can be shipped from library j to the scanning facility per day, once the library is signed up.
         self.books_sorted_by_score = sorted(books, reverse=True)
 
-    def __str__(self):
+    def __repr__(self):
         out = f"library id: {self.library_id}\n"
         out += f"library signup time: {self.T}\n"
         out += f"number of books that can be scanned daily: {self.M}\n"
