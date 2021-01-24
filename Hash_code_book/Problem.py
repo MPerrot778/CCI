@@ -1,5 +1,5 @@
-from Library import Library
-from Book import Book
+from Hash_code_book.Library import Library
+from Hash_code_book.Book import Book
 
 class Problem :
     def __init__(self,fileName):
