@@ -14,3 +14,6 @@ class Book :
 
     def __ge__(self, other):
         return self.book_score >= other.book_score
+
+    def __str__(self):
+        return "Book " + self.book_id + " with a score of " + self.book_score
