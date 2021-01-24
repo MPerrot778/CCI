@@ -42,8 +42,8 @@ class Solver :
         f.write("%d\n" % self.A)
         for i in range(self.A):
             f.write("%d %d\n" % (self.lib_read[i][0], self.lib_read[i][1]))
-            for j in self.lib_read[1]:
-                f.write("%d " % self.lib_read[i][2][j])
+            for j in range(self.lib_read[i][1]):
+                f.write("%d " % int(self.lib_read[i][2][j].book_id))
             f.write("\n")
         f.close()
     
