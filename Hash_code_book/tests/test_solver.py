@@ -5,12 +5,12 @@ from Hash_code_book.Solver import Solver
 
 class MyTestCase(unittest.TestCase):
     def test_get_days_left(self):
-        problem = Problem("problems/a_example.txt")
+        problem = Problem("../problems/a_example.txt")
         solver = Solver(problem)
         self.assertEqual(solver.days_left, 7)
 
     def test_get_library_score(self):
-        problem = Problem("problems/a_example.txt")
+        problem = Problem("../problems/a_example.txt")
         solver = Solver(problem)
         self.assertEqual(solver.get_library_score(0), 17)
         self.assertEqual(solver.get_library_score(1), 14)
