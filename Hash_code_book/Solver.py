@@ -36,7 +36,15 @@ class Solver :
 
 
     def write_solution(self, outName):
-        pass
+
+        f = open(outName, 'w')
+        f.write("%d\n" % self.A)
+        for i in range(self.A):
+            f.write("%d %d\n" % (self.lib_read[i][0], self.lib_read[i][1]))
+            for j in self.lib_read[1]:
+                f.write("%d " % self.lib_read[i][2][j])
+            f.write("\n")
+        f.close()
     
     
     def get_library_score(self, library_id):
