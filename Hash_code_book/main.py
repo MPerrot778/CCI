@@ -8,3 +8,6 @@ if __name__ == '__main__':
     solver = Solver(PA)
     solver.get_solution()
     print(solver.lib_read)
+    print(solver.A)
+    print(solver.days_left)
+    solver.write_solution("a_solution.txt")
