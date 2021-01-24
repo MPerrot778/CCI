@@ -1,6 +1,10 @@
-from Problem import Problem
+from Hash_code_book.Problem import Problem
+from Hash_code_book.Solver import Solver
 
-PA = Problem("./Hash_code_book/problems/a_example.txt")
-PA.read()
+if __name__ == '__main__':
+    PA = Problem("problems/a_example.txt")
+    PA.read()
 
-print(PA.libraries[0].books_sorted_by_score)
+    solver = Solver(PA)
+    solver.get_solution()
+    print(solver.lib_read)
