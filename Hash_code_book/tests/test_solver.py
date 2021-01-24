@@ -1,6 +1,6 @@
 import unittest
-from Hash_code_book.Problem import Problem
-from Hash_code_book.Solver import Solver
+from Problem import Problem
+from Solver import Solver
 
 
 class MyTestCase(unittest.TestCase):
