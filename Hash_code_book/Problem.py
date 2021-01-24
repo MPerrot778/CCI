@@ -1,6 +1,4 @@
 
-from Library import *
-
 class Problem :
     def __init__(self,fileName):
         self.B = 0 # the number of dierent books
