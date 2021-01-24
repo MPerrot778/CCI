@@ -25,10 +25,8 @@ class Solver :
                 while number_of_books_scanned_in_parallel != 0 and len(books_left_to_be_treated) != 0:
                     id_of_book = books_left_to_be_treated[0].book_id
                     book_score = books_left_to_be_treated[0].book_score
-                    while id_of_book in self.books_read: #Si le livre a déjà été traité, on passe au suivant
-                        books_left_to_be_treated.pop(0)
-                        id_of_book = books_left_to_be_treated[0]
+                    if not (id_of_book in self.books_read):
+                        number_of_books_scanned_in_parallel -= 1
+                        score_de_la_librairie += book_score
                     books_left_to_be_treated.pop(0)
-                    number_of_books_scanned_in_parallel -= 1
-                    score_de_la_librairie += book_score
         return score_de_la_librairie
