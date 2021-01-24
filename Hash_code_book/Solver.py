@@ -14,7 +14,7 @@ class Solver :
         while self.days_left > 0:
             best_score = 0
             best_lib = None
-            for lib in self.problem.libraries:
+            for lib in [lib for lib in self.problem.libraries if lib.library_id not in [l[0] for l in self.lib_read]]:
                 temp_score = self.get_library_score(lib.library_id)
                 if best_score < temp_score:
                     best_score = temp_score
@@ -32,7 +32,7 @@ class Solver :
                         self.books_read.add(temp_book)
             self.lib_read.append((best_lib.library_id, len(book_to_read), book_to_read))
             self.A += 1
-            self.days_left += - best_lib.T       
+            self.days_left -= best_lib.T
 
 
     def write_solution(self, outName):
