@@ -1,4 +1,5 @@
 from Hash_code_book.Problem import *
+from copy import deepcopy
 
 class Solver :
     def __init__(self, problem: Problem):
@@ -17,7 +18,7 @@ class Solver :
         score_de_la_librairie = 0
         if self.days_left > self.problem.libraries[library_id].T: #On s'assure que le nombre de jours pour le sign_up est plus petit que le nombre de jours restant
             days_of_book_scanning_left = self.days_left - self.problem.libraries[library_id].T
-            books_left_to_be_treated = self.problem.libraries[library_id].books_sorted_by_score
+            books_left_to_be_treated = deepcopy(self.problem.libraries[library_id].books_sorted_by_score)
             while days_of_book_scanning_left != 0: #Tant qu'il nous reste des journées de traitement, on continue
                 days_of_book_scanning_left -= 1
                 number_of_books_scanned_in_parallel = self.problem.libraries[library_id].M
