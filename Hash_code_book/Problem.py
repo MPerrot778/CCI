@@ -3,10 +3,9 @@ from Library import Library
 class Problem :
     def __init__(self,fileName):
         self.fileName = fileName
-
-        self.B = 0
-        self.L = 0
-        self.D = 0
+        self.B = 0 # the number of dierent books
+        self.L = 0 # the number of libraries
+        self.D = 0 # the number of days
         self.scores = []
         self.Libraries = [] # list of library
 
