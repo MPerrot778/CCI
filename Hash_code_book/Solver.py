@@ -1,6 +1,7 @@
 from Hash_code_book.Problem import *
 from copy import deepcopy
 
+
 class Solver :
     def __init__(self, problem: Problem):
         self.A = 0 # the number of libraries to sign up
@@ -14,7 +15,7 @@ class Solver :
         while self.days_left > 0:
             best_score = 1
             best_lib = None
-            for lib in self.problem.Libraries:
+            for lib in self.problem.libraries:
                 temp_score = self.get_library_score(lib.library_id)
                 if best_score < temp_score:
                     best_score = temp_score
@@ -22,7 +23,7 @@ class Solver :
             if best_lib is None:
                 break
             book_to_read = []
-            book_not_read = [x for element in best_lib.books_sorted_by_score if element not in self.books_read]
+            book_not_read = [element for element in best_lib.books_sorted_by_score if element not in self.books_read]
             days_left_to_read = self.days_left - best_lib.T
             for i in range(days_left_to_read):
                 for j in range(best_lib.M):
