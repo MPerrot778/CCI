@@ -1,5 +1,7 @@
+from Problem import *
+
 class Solver :
-    def __init__(self,problem):
+    def __init__(self, problem: Problem):
         self.problem = problem
         self.books_read = {}
         self.days_left = problem.D

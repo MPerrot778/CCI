@@ -1,10 +1,12 @@
 
+from Library import *
+
 class Problem :
     def __init__(self,fileName):
-        self.B = 0
-        self.L = 0
-        self.D = 0
-        self.scores = []
+        self.B = 0 # the number of dierent books
+        self.L = 0 # the number of libraries
+        self.D = 0 # the number of days
+        self.scores = [] #list of int
         self.Libraries = [] # list of library
 
     def read(self, fileName):
