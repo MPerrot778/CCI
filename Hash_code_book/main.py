@@ -1,5 +1,5 @@
-from Hash_code_book.Problem import Problem
-from Hash_code_book.Solver import Solver
+from Problem import Problem
+from Solver import Solver
 
 if __name__ == '__main__':
     PA = Problem("problems/a_example.txt")

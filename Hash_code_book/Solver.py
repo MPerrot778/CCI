@@ -1,4 +1,4 @@
-from Hash_code_book.Problem import *
+from Problem import *
 from copy import deepcopy
 
 
