@@ -5,7 +5,7 @@ class Problem :
     def __init__(self,fileName):
         self.fileName = fileName
 
-        B,L,D,libraries,scores = self.read()
+        B,L,D,libraries = self.read()
 
         self.B = B
         self.L = L
