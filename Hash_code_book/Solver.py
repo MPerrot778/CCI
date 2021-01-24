@@ -52,16 +52,17 @@ class Solver :
         score_de_la_librairie = 0
         if self.days_left > self.problem.libraries[library_id].T: #On s'assure que le nombre de jours pour le sign_up est plus petit que le nombre de jours restant
             days_of_book_scanning_left = self.days_left - self.problem.libraries[library_id].T
-            books_left_to_be_treated = [elem for elem in self.problem.libraries[library_id].books_sorted_by_score]
-            while days_of_book_scanning_left != 0: #Tant qu'il nous reste des journées de traitement, on continue
+            books = self.problem.libraries[library_id].books_sorted_by_score
+            book_counter = 0
+            while days_of_book_scanning_left != 0 and book_counter < len(books): #Tant qu'il nous reste des journées de traitement, on continue
                 days_of_book_scanning_left -= 1
                 number_of_books_scanned_in_parallel = self.problem.libraries[library_id].M
                 #Tant que le nombre de livres à traiter en parallèle et la taille de la liste des livres de la librairie ne sont pas de 0, on continue
-                while number_of_books_scanned_in_parallel != 0 and len(books_left_to_be_treated) != 0:
-                    id_of_book = books_left_to_be_treated[0].book_id
-                    book_score = books_left_to_be_treated[0].book_score
+                while number_of_books_scanned_in_parallel != 0 and book_counter < len(books):
+                    id_of_book = books[book_counter].book_id
+                    book_score = books[book_counter].book_score
                     if not (id_of_book in self.books_read):
                         number_of_books_scanned_in_parallel -= 1
                         score_de_la_librairie += book_score
-                    books_left_to_be_treated.pop(0)
+                    book_counter += 1
         return score_de_la_librairie
