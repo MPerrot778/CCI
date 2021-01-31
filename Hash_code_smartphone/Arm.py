@@ -35,11 +35,14 @@ class Arm:
             self.tail.append(next_position)
 
     def get_path_to_position(self, goal_position: Tuple[int, int]) -> List[Tuple[int, int]]:
+        # Shortcut de JEDI voodoo
         if goal_position == self.cached_position:
-            # Shortcut de JEDI voodoo
             while self.cached_path[0] != self.current_position:
                 del self.cached_path[0]
-            return self.cached_path
+
+            # The next position must be valid
+            if len(self.cached_path) == 1 or self.used_map[self.cached_path[1]] == 0:
+                return self.cached_path
 
         grid = Grid(matrix=self.used_map, inverse=True)
         start = grid.node(self.current_position[1], self.current_position[0])
