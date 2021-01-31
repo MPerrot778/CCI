@@ -14,6 +14,7 @@ class Problem:
         assembly_points = []
 
         task_list = []
+        task_id = 0
         task = True
 
         with open(filename,'r') as f :
@@ -45,7 +46,8 @@ class Problem:
                             for i in range(assembly_points_count):
                                 assembly_points += [(int(line[0 + 2*i]), int(line[1 + 2*i]))]
                             
-                            task_list += [Task(score,assembly_points)]
+                            task_list += [Task(score,task_id,assembly_points)]
+                            task_id += 1
                             assembly_points = []
                             task = True
                 row += 1  

@@ -18,11 +18,14 @@ class Solver:
         f = open(output_filename, 'w')
         f.write("%d\n" % len(self.arms))
 
-        for i, arm in enumerate(self.arms):
+        for _, arm in enumerate(self.arms):
             f.write("%d %d %d %d\n" % (arm.mounting_point[0], arm.mounting_point[1], len(arm.task_ids), len(arm.actions)))
-            f.writelines(arm.task_ids)
-            for j in range(len(arm.task_ids)):
-                f.writelines(arm.actions)
+            for _, ids in enumerate(arm.task_ids):
+                f.write("%d " % ids)
+            f.write("\n")
+
+            for _, move in enumerate(arm.actions):
+                f.write("%s " % move)
             f.write("\n")
         f.close()
 
@@ -36,6 +39,7 @@ class Solver:
             self.arms.append(Arm(point, self.problem.game_map))
 
         arms_tasks = [[] for _ in range(len(self.arms))]
+
         while step_count <= self.problem.step_count:
             for i, arm in enumerate(self.arms):
                 if len(arms_tasks[i]) > 0:
@@ -46,10 +50,12 @@ class Solver:
                     if arm.current_position != arm.mounting_point:
                         arm.retract()
                     else:
-                        arms_tasks[i].extend(self.next_task(arm.current_position,self.problem.task_list))
+                        n_task = self.next_task(arm.current_position,self.problem.task_list)
+                        arm.task_ids += [n_task.id]
+                        arms_tasks[i].extend(n_task.assembly_points)
                         arm.move(arms_tasks[i][0])
 
             step_count += 1
 
     def next_task(self, actual_position, task_list):
-        return task_list.pop().assembly_points
+        return task_list.pop()
