@@ -13,6 +13,7 @@ class Arm:
         self.tail = deque([mounting_point])
         self.used_map = used_map
         self.actions: List[str] = []
+        self.task_ids = []
         self.__finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
 
     def move(self, goal_position: Tuple[int, int]):
