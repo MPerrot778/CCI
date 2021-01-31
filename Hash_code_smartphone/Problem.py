@@ -65,10 +65,10 @@ class Problem:
     
 
     def create_game_map(self):
-        game_map = np.zeros((self.height, self.width)) # [row][col]
+        game_map = np.zeros((self.width, self.height)) # [row][col]
 
         for i, mounting_point in enumerate(self.mounting_points):
-            game_map[mounting_point[1]][mounting_point[0]] = 1
+            game_map[mounting_point] = 1
 
         return game_map   
     
