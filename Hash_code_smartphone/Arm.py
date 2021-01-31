@@ -4,6 +4,7 @@ import numpy as np
 from pathfinding.core.grid import Grid
 from pathfinding.core.diagonal_movement import DiagonalMovement
 from pathfinding.finder.a_star import AStarFinder
+from constants import *
 import math
 
 
@@ -37,7 +38,11 @@ class Arm:
         return path
 
     def get_next_position(self, goal_position: Tuple[int, int]) -> Tuple[int, int]:
-        return self.get_path_to_position(goal_position)[1]
+        path = self.get_path_to_position(goal_position)
+        if len(path) <= 1:
+            return self.current_position
+        else:
+            return self.get_path_to_position(goal_position)[1]
 
     def get_closest_position(self, positions: List[Tuple[int, int]]) -> Tuple[int, int]:
         min_distance = math.inf
@@ -52,7 +57,7 @@ class Arm:
     def get_distance(self, goal_position: Tuple[int, int]) -> int:
         path = self.get_path_to_position(goal_position)
         if len(path) == 0:
-            return math.inf
+            return INFINITY_INT
         else:
             return len(path) - 1
 
