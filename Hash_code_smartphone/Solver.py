@@ -19,10 +19,10 @@ class Solver:
         f.write("%d\n" % len(self.arms))
 
         for i, arm in enumerate(self.arms):
-            f.write("%d %d %d %d\n" % (arm.mounting_point[0], arm.mounting_point[1], len(arm.task_list), len(arm.actions)))
-            f.writelines(arm.task_list)
-            for j in range(len(arm.actions)):
-                f.write("%c " % arm.actions[j])
+            f.write("%d %d %d %d\n" % (arm.mounting_point[0], arm.mounting_point[1], len(arm.task_ids), len(arm.actions)))
+            f.writelines(arm.task_ids)
+            for j in range(len(arm.task_ids)):
+                f.writelines(arm.actions)
             f.write("\n")
         f.close()
 
