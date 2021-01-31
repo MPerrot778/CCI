@@ -28,6 +28,8 @@ class Solver:
             for i, arm in enumerate(self.arms):
                 if len(arms_tasks[i]) > 0:
                     arm.move(arms_tasks[i][0])
+                    if arm.current_position() == arms_tasks[i][0]:
+                        arms_tasks[i].pop(0)
                 else:
                     if arm.current_position() == arm.mounting_point:
                         arm.retract()
