@@ -61,6 +61,17 @@ class Problem:
         self.mounting_points = mounting_points
         self.task_list = task_list
         self.step_count = step_count
-        self.game_map = np.full((self.width, self.height), ' ')
+        self.game_map = self.create_game_map()
     
+
+    def create_game_map(self):
+        game_map = np.zeros((self.height, self.width)) # [row][col]
+
+        for i, mounting_point in enumerate(self.mounting_points):
+            game_map[mounting_point[1]][mounting_point[0]] = 1
+
+        return game_map   
+    
+    def get_map_coordinate(self,coordinates):
+        return (coordinates[0],self.height - coordinates[1] - 1)
 
