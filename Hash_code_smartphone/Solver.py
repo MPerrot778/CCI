@@ -30,25 +30,26 @@ class Solver:
     def compute_solution(self):
         step_count = 1
         nbr_arm_created = 0
-        arms_tasks = [[] for _ in range(len(self.arms))]
+
         for arm_id in range(self.problem.robotic_arm_count):
-            point = self.problem.mounting_points.pop(random.random() * len(self.problem.mounting_points) - nbr_arm_created)
+            point = self.problem.mounting_points.pop(int(random.random() * len(self.problem.mounting_points)) - nbr_arm_created)
             self.arms.append(Arm(point, self.problem.game_map))
 
+        arms_tasks = [[] for _ in range(len(self.arms))]
         while step_count <= self.problem.step_count:
             for i, arm in enumerate(self.arms):
                 if len(arms_tasks[i]) > 0:
                     arm.move(arms_tasks[i][0])
-                    if arm.current_position() == arms_tasks[i][0]:
+                    if arm.current_position == arms_tasks[i][0]:
                         arms_tasks[i].pop(0)
                 else:
-                    if arm.current_position() == arm.mounting_point:
+                    if arm.current_position != arm.mounting_point:
                         arm.retract()
                     else:
-                        arms_tasks[i].extend(self.next_task(arm.current_position(),self.problem.task_list))
+                        arms_tasks[i].extend(self.next_task(arm.current_position,self.problem.task_list))
                         arm.move(arms_tasks[i][0])
 
             step_count += 1
 
     def next_task(self, actual_position, task_list):
-        return task_list.pop()
+        return task_list.pop().assembly_points

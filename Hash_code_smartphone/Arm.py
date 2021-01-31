@@ -22,7 +22,7 @@ class Arm:
         if next_position == self.tail[-1]:
             # Wait
             self.actions.append('W')
-        elif next_position == self.tail[-2]:
+        elif len(self.tail) > 1  and next_position == self.tail[-2]::
             self.retract()
         else:
             # Expand arm
