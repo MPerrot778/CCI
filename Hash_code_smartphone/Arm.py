@@ -35,7 +35,7 @@ class Arm:
         start = grid.node(self.current_position[1], self.current_position[0])
         end = grid.node(goal_position[1], goal_position[0])
         path, runs = self.__finder.find_path(start, end, grid)
-        return path
+        return [(x, y) for y, x in path]
 
     def get_next_position(self, goal_position: Tuple[int, int]) -> Tuple[int, int]:
         path = self.get_path_to_position(goal_position)
