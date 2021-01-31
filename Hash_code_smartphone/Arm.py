@@ -18,6 +18,9 @@ class Arm:
         self.task_ids = []
         self.__finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
 
+        self.cached_position = None
+        self.cached_path = []
+
     def move(self, goal_position: Tuple[int, int]):
         next_position = self.get_next_position(goal_position)
         if next_position == self.tail[-1]:
@@ -32,18 +35,27 @@ class Arm:
             self.tail.append(next_position)
 
     def get_path_to_position(self, goal_position: Tuple[int, int]) -> List[Tuple[int, int]]:
+        if goal_position == self.cached_position:
+            # Shortcut de JEDI voodoo
+            while self.cached_path[0] != self.current_position:
+                del self.cached_path[0]
+            return self.cached_path
+
         grid = Grid(matrix=self.used_map, inverse=True)
         start = grid.node(self.current_position[1], self.current_position[0])
         end = grid.node(goal_position[1], goal_position[0])
         path, runs = self.__finder.find_path(start, end, grid)
-        return [(x, y) for y, x in path]
+        out_path = [(x, y) for y, x in path]
+        self.cached_position = goal_position
+        self.cached_path = out_path
+        return out_path
 
     def get_next_position(self, goal_position: Tuple[int, int]) -> Tuple[int, int]:
         path = self.get_path_to_position(goal_position)
         if len(path) <= 1:
             return self.current_position
         else:
-            return self.get_path_to_position(goal_position)[1]
+            return path[1]
 
     def get_closest_position(self, positions: List[Tuple[int, int]]) -> Tuple[int, int]:
         min_distance = INFINITY_INT
