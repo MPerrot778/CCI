@@ -9,15 +9,24 @@ import math
 
 class Arm:
     def __init__(self, mounting_point: Tuple[int, int], used_map: np.ndarray):
-        self.moves: List[str] = []
         self.mounting_point = mounting_point
         self.tail = deque([mounting_point])
         self.used_map = used_map
-        self.actions = []
+        self.actions: List[str] = []
         self.__finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
 
     def move(self, goal_position: Tuple[int, int]):
-        pass
+        next_position = self.get_next_position(goal_position)
+        if next_position == self.tail[-1]:
+            # Wait
+            self.actions.append('W')
+        elif next_position == self.tail[-2]:
+            self.retract()
+        else:
+            # Expand arm
+            self.used_map[next_position] = 1
+            self.actions.append(self.__get_action(next_position))
+            self.tail.append(next_position)
 
     def get_path_to_position(self, goal_position: Tuple[int, int]) -> List[Tuple[int, int]]:
         grid = Grid(matrix=self.used_map, inverse=True)
@@ -40,12 +49,14 @@ class Arm:
         return best_position
 
     def get_distance(self, goal_position: Tuple[int, int]) -> int:
-        return len(self.get_path_to_position(goal_position)) - 1
+        path = self.get_path_to_position(goal_position)
+        if len(path) == 0:
+            return math.inf
+        else:
+            return len(path) - 1
 
-    def retract(self):
+    def __get_action(self, new_position):
         last_position = self.current_position
-        self.tail.pop()
-        new_position = self.current_position
         if new_position[0] > last_position[0]:
             action = 'R'
         elif new_position[0] < last_position[0]:
@@ -54,12 +65,13 @@ class Arm:
             action = 'U'
         else:
             action = 'D'
-        self.actions.append(action)
+        return action
+
+    def retract(self):
+        self.used_map[self.current_position] = 0
+        self.actions.append(self.__get_action(self.tail[-2]))
+        self.tail.pop()
 
     @property
     def current_position(self):
         return self.tail[-1]
-
-    # def get_possible_moves(self) -> List[str]:
-    #     pass
-
