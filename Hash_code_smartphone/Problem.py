@@ -50,17 +50,15 @@ class Problem:
                             task = True
                 row += 1  
             
-        return Problem(width, height, robotic_arm_count, mounting_point_count, mounting_points, task_count, task_list, step_count)
+        return Problem(width, height, robotic_arm_count, mounting_points, task_list, step_count)
         
 
-    def __init__(self, width, height, robotic_arm_count, mounting_point_count, mounting_points,
-                 task_count, task_list, step_count):
+    def __init__(self, width, height, robotic_arm_count, mounting_points,
+                task_list, step_count):
         self.width = width
         self.height = height
         self.robotic_arm_count = robotic_arm_count
-        self.mounting_point_count = mounting_point_count
         self.mounting_points = mounting_points
-        self.task_count = task_count
         self.task_list = task_list
         self.step_count = step_count
         self.game_map = np.full((self.width, self.height), ' ')
