@@ -41,5 +41,25 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(arm.get_next_position((0, 3)), (0, 1))
         self.assertEqual(arm.get_distance((0, 3)), INFINITY_INT)
 
+    def test_move(self):
+        used_map = np.array([
+            [1, 0, 1, 1, 0],
+            [0, 0, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1]
+        ])
+        arm = Arm((0, 1), used_map)
+        arm.move((0, 4))
+        self.assertEqual(arm.actions, ['R'])
+        self.assertTrue(np.all(used_map == np.array([
+            [1, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1]
+        ])))
+
+
 if __name__ == '__main__':
     unittest.main()
