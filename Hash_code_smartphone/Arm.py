@@ -46,7 +46,7 @@ class Arm:
             return self.get_path_to_position(goal_position)[1]
 
     def get_closest_position(self, positions: List[Tuple[int, int]]) -> Tuple[int, int]:
-        min_distance = math.inf
+        min_distance = INFINITY_INT
         best_position = None
         for position in positions:
             distance = self.get_distance(position)
