@@ -1,5 +1,6 @@
 from typing import *
 from Problem import Problem
+from Arm import Arm
 import numpy as np
 import random
 
@@ -14,7 +15,17 @@ class Solver:
         self.arms = []
 
     def submit(self, output_filename: str):
-        pass
+        f = open(output_filename, 'w')
+        f.write("%d\n" % len(self.arms))
+
+        for i, arm in enumerate(self.arms):
+            f.write("%d %d %d %d\n" % (arm.mounting_point[0], arm.mounting_point[1], len(arm.task_list), len(arm.actions)))
+            f.writelines(arm.task_list)
+            for j in range(len(arm.actions)):
+                f.write("%c " % arm.actions[j])
+            f.write("\n")
+        f.close()
+
 
     def compute_solution(self):
         step_count = 1
@@ -28,6 +39,8 @@ class Solver:
             for i, arm in enumerate(self.arms):
                 if len(arms_tasks[i]) > 0:
                     arm.move(arms_tasks[i][0])
+                    if arm.current_position() == arms_tasks[i][0]:
+                        arms_tasks[i].pop(0)
                 else:
                     if arm.current_position() == arm.mounting_point:
                         arm.retract()
