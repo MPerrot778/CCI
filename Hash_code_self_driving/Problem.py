@@ -19,7 +19,7 @@ class Problem:
                     y = int(line[3])
                     s = int(line[4])
                     f = int(line[5])
-                    rides += (a, b, x, y, s, f)
+                    rides += [(a, b, x, y, s, f)]
         return Problem(number_of_rows,number_of_columns,number_of_vehicules_in_fleet,number_of_rides,bonus,number_of_steps,rides)
 
 
