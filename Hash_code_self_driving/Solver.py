@@ -14,25 +14,24 @@ class Solver:
     def get_score(self, current_step, start_position: Tuple, ride: Tuple) -> Tuple:
         score = 0
 
-        distance_from_ride = self.get_distance(start_position, (ride[0], ride[1]))
-        if current_step + distance_from_ride < ride[4]:
-            score += self.problem.B
-
         earliest_start = ride[4]
+        latest_finish = ride[5]
+        distance_from_ride = self.get_distance(start_position, (ride[0], ride[1]))
         ride_duration = self.get_distance((ride[0], ride[1]), (ride[2], ride[3]))
 
-        if ride_duration+current_step > earliest_start:
-            start_step = ride_duration+current_step
+        if current_step + distance_from_ride > earliest_start:
+            start_step = current_step + distance_from_ride
         else:
             start_step = earliest_start
+            score += self.problem.B
 
-        latest_finish = ride[5]
-        if ride_duration + start_step > latest_finish:
+        if start_step + ride_duration > latest_finish:
             return None, None, 0
 
         score += ride_duration
-        ride_score = score - distance_from_ride
-        nb_steps = distance_from_ride+ride_duration
+        wait_duration = max(earliest_start - current_step - distance_from_ride, 0)
+        ride_score = score - distance_from_ride - wait_duration
+        nb_steps = distance_from_ride+wait_duration+ride_duration
 
         return score, ride_score, nb_steps
 
