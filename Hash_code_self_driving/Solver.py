@@ -20,13 +20,13 @@ class Solver:
 
         ride_duration = self.get_distance((ride[0], ride[1]), (ride[2], ride[3])) + ride[4]
         if(current_step + ride_duration) > ride[5]:
-            return None, 0
+            return None, None, 0
 
         score += ride_duration
-        score -= distance_from_ride
+        ride_score = score - distance_from_ride
         nb_steps = distance_from_ride+ride_duration
 
-        return score, nb_steps
+        return score, ride_score, nb_steps
 
     def solve(self):
         remaining_ride_ids = set((r for r in range(len(self.problem.rides))))
@@ -42,9 +42,9 @@ class Solver:
                 best_ride_id = None
                 best_steps = None
                 for ride_id in remaining_ride_ids:
-                    score, steps = self.get_score(current_step, current_position, self.problem.rides[ride_id])
-                    if score is not None and score > best_score:
-                        best_score = score
+                    score, ride_score, steps = self.get_score(current_step, current_position, self.problem.rides[ride_id])
+                    if ride_score is not None and ride_score > best_score:
+                        best_score = ride_score
                         best_steps = steps
                         best_ride_id = ride_id
 
