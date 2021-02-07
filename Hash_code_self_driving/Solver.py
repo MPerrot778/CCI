@@ -55,5 +55,10 @@ class Solver:
 
 
     def submit(self, file_name):
-        pass
+        f = open(file_name,'w')
+        for i in range(self.problem.F):
+            f.write("%d " % len(self.vehicule_rides[i]))
+            f.writelines(self.vehicule_rides[i])
+            f.write("\n")
+        f.close()
 
