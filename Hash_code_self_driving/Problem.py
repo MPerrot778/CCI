@@ -11,13 +11,14 @@ class Problem:
             number_of_steps = int(first_line[5])
             rides = [] #Contient toutes les rides et leurs valeurs associées
             for line in file.readlines()[1:]:
-                a = int(line[0])
-                b = int(line[1])
-                x = int(line[2])
-                y = int(line[3])
-                s = int(line[4])
-                f = int(line[5])
-                rides += (a, b, x, y, s, f)
+                if (line != '\n'):
+                    a = int(line[0])
+                    b = int(line[1])
+                    x = int(line[2])
+                    y = int(line[3])
+                    s = int(line[4])
+                    f = int(line[5])
+                    rides += (a, b, x, y, s, f)
         return Problem(number_of_rows,number_of_columns,number_of_vehicules_in_fleet,number_of_rides,bonus,number_of_steps,rides)
 
 
