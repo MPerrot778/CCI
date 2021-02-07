@@ -18,9 +18,17 @@ class Solver:
         if current_step + distance_from_ride < ride[4]:
             score += self.problem.B
 
+        earliest_start = ride[4]
         ride_duration = self.get_distance((ride[0], ride[1]), (ride[2], ride[3]))
-        if(current_step + ride_duration + ride[4]) > ride[5]:
-            return None, 0
+
+        if ride_duration+current_step > earliest_start:
+            start_step = ride_duration+current_step
+        else:
+            start_step = earliest_start
+
+        latest_finish = ride[5]
+        if ride_duration + start_step > latest_finish:
+            return None, None, 0
 
         score += ride_duration
         ride_score = score - distance_from_ride
@@ -38,13 +46,15 @@ class Solver:
             self.vehicule_rides.append([])
 
             while current_step < self.problem.T and len(remaining_ride_ids) > 0:
+                best_ride_score = -1000000
                 best_score = -1000000
                 best_ride_id = None
                 best_steps = None
                 for ride_id in remaining_ride_ids:
                     score, ride_score, steps = self.get_score(current_step, current_position, self.problem.rides[ride_id])
-                    if ride_score is not None and ride_score > best_score:
-                        best_score = ride_score
+                    if ride_score is not None and ride_score > best_ride_score:
+                        best_ride_score = ride_score
+                        best_score = score
                         best_steps = steps
                         best_ride_id = ride_id
 
