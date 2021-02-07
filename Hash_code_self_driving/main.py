@@ -6,4 +6,5 @@ if __name__ == '__main__':
     solver = Solver(problem)
     solver.solve()
     print(solver.vehicule_rides)
+    solver.submit("out.txt")
     print("score", solver.total_score)
