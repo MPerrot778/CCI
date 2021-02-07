@@ -10,7 +10,7 @@ class Problem:
             bonus = int(first_line[4])
             number_of_steps = int(first_line[5])
             rides = [] #Contient toutes les rides et leurs valeurs associées
-            for line in file.readlines()[1:]:
+            for line in file.readlines():
                 if (line != '\n'):
                     line = line.split(' ')
                     a = int(line[0])
@@ -19,7 +19,7 @@ class Problem:
                     y = int(line[3])
                     s = int(line[4])
                     f = int(line[5])
-                    rides += (a, b, x, y, s, f)
+                    rides += [(a, b, x, y, s, f)]
         return Problem(number_of_rows,number_of_columns,number_of_vehicules_in_fleet,number_of_rides,bonus,number_of_steps,rides)
 
 
