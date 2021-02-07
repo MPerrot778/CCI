@@ -5,6 +5,7 @@ class Solver:
     def __init__(self, problem):
         self.problem = problem
         self.vehicule_rides = None
+        self.total_score = 0
 
     def get_distance(self, a: Tuple, b: Tuple) -> int:
         distance = abs(a[0] - b[0]) + abs(a[1]-b[1])
@@ -50,6 +51,7 @@ class Solver:
                 if best_ride_id is None:
                     break
                 best_ride = self.problem.rides[best_ride_id]
+                self.total_score += best_score
                 current_step += best_steps
                 current_position = (best_ride[2], best_ride[3])
                 remaining_ride_ids.remove(best_ride_id)
