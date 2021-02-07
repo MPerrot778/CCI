@@ -23,7 +23,9 @@ class Solver:
 
         score += ride_duration
         score -= distance_from_ride
-        return score
+        nb_steps = distance_from_ride+ride_duration
+
+        return score, nb_steps
 
     def solve(self):
         remaining_rides = set(self.problem.rides)
