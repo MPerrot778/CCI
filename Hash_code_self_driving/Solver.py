@@ -6,6 +6,7 @@ class Solver:
         self.problem = problem
         self.vehicule_rides = None
         self.total_score = 0
+        self.score_par_vehicule = 0
 
     def get_distance(self, a: Tuple, b: Tuple) -> int:
         distance = abs(a[0] - b[0]) + abs(a[1]-b[1])
@@ -43,6 +44,7 @@ class Solver:
             current_step = 0
             current_position = (0, 0)
             self.vehicule_rides.append([])
+            self.score_par_vehicule = 0
 
             while current_step < self.problem.T and len(remaining_ride_ids) > 0:
                 best_ride_score = -1000000
@@ -61,6 +63,7 @@ class Solver:
                     break
                 best_ride = self.problem.rides[best_ride_id]
                 self.total_score += best_score
+                self.score_par_vehicule += best_score
                 current_step += best_steps
                 current_position = (best_ride[2], best_ride[3])
                 remaining_ride_ids.remove(best_ride_id)
@@ -70,6 +73,7 @@ class Solver:
     def submit(self, file_name):
         f = open(file_name,'w')
         for i in range(self.problem.F):
+            f.write("%d " % self.score_par_vehicule)
             f.write("%d " % len(self.vehicule_rides[i]))
             f.writelines(["%d " % item  for item in self.vehicule_rides[i]])
             f.write("\n")
