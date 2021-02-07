@@ -22,10 +22,30 @@ class Solver:
         return score
 
     def solve(self):
-        remaining_rides = set(self.problem.rides)
+        remaining_ride_ids = set((r for r in range(len(self.problem.rides))))
+        vehicule_rides = []
+
         for vehicule_id in range(self.problem.F):
-            for ride in remaining_rides:
-                pass
+            current_step = 0
+            current_position = (0, 0)
+            vehicule_rides.append([])
+
+            while current_step < self.problem.T:
+                best_score = 0
+                best_ride_id = None
+                best_steps = None
+                for ride_id in remaining_ride_ids:
+                    score, steps = self.get_score(current_step, current_position, self.problem.rides[ride_id])
+                    if score is not None and score > best_score:
+                        best_score = score
+                        best_steps = steps
+                        best_ride_id = ride_id
+
+                best_ride = self.problem.rides[best_ride_id]
+                current_step += best_steps
+                current_position = (best_ride[2], best_ride[3])
+                remaining_ride_ids.remove(best_ride_id)
+                vehicule_rides[vehicule_id].append(best_ride_id)
 
 
     def submit(self, file_name):
