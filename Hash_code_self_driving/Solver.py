@@ -36,8 +36,8 @@ class Solver:
             current_position = (0, 0)
             self.vehicule_rides.append([])
 
-            while current_step < self.problem.T:
-                best_score = 0
+            while current_step < self.problem.T and len(remaining_ride_ids) > 0:
+                best_score = -1000000
                 best_ride_id = None
                 best_steps = None
                 for ride_id in remaining_ride_ids:
@@ -47,6 +47,8 @@ class Solver:
                         best_steps = steps
                         best_ride_id = ride_id
 
+                if best_ride_id is None:
+                    break
                 best_ride = self.problem.rides[best_ride_id]
                 current_step += best_steps
                 current_position = (best_ride[2], best_ride[3])
