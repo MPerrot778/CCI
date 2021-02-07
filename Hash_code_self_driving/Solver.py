@@ -17,7 +17,7 @@ class Solver:
         if current_step + distance_from_ride < ride[4]:
             score += self.problem.B
 
-        ride_duration = self.get_distance((ride[0], ride[1]), (ride[2], ride[3]))
+        ride_duration = self.get_distance((ride[0], ride[1]), (ride[2], ride[3])) + ride[4]
         if(current_step + ride_duration) > ride[5]:
             return None, 0
 
