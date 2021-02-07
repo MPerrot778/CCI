@@ -12,6 +12,7 @@ class Problem:
             rides = [] #Contient toutes les rides et leurs valeurs associées
             for line in file.readlines()[1:]:
                 if (line != '\n'):
+                    line = line.split(' ')
                     a = int(line[0])
                     b = int(line[1])
                     x = int(line[2])
