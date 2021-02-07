@@ -4,6 +4,7 @@ from typing import *
 class Solver:
     def __init__(self, problem):
         self.problem = problem
+        self.vehicule_rides = None
 
     def get_distance(self, a: Tuple, b: Tuple) -> int:
         distance = abs(a[0] - b[0]) + abs(a[1]-b[1])
@@ -28,12 +29,12 @@ class Solver:
 
     def solve(self):
         remaining_ride_ids = set((r for r in range(len(self.problem.rides))))
-        vehicule_rides = []
+        self.vehicule_rides = []
 
         for vehicule_id in range(self.problem.F):
             current_step = 0
             current_position = (0, 0)
-            vehicule_rides.append([])
+            self.vehicule_rides.append([])
 
             while current_step < self.problem.T:
                 best_score = 0
@@ -50,7 +51,7 @@ class Solver:
                 current_step += best_steps
                 current_position = (best_ride[2], best_ride[3])
                 remaining_ride_ids.remove(best_ride_id)
-                vehicule_rides[vehicule_id].append(best_ride_id)
+                self.vehicule_rides[vehicule_id].append(best_ride_id)
 
 
     def submit(self, file_name):
