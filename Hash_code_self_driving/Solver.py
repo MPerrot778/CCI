@@ -1,5 +1,7 @@
 from typing import *
 
+WAIT_SCORE_FACTOR = 2
+DISTANCE_FROM_RIDE_SCORE_FACTOR = 2
 
 class Solver:
     def __init__(self, problem):
@@ -26,7 +28,7 @@ class Solver:
 
         score += ride_duration
         wait_duration = max(earliest_start - current_step - distance_from_ride, 0)
-        ride_score = score - distance_from_ride - wait_duration
+        ride_score = score - distance_from_ride * DISTANCE_FROM_RIDE_SCORE_FACTOR - wait_duration * WAIT_SCORE_FACTOR
         nb_steps = distance_from_ride+wait_duration+ride_duration
 
         return score, ride_score, nb_steps
