@@ -10,7 +10,7 @@ class Problem:
             bonus = int(first_line[4])
             number_of_steps = int(first_line[5])
             rides = [] #Contient toutes les rides et leurs valeurs associées
-            for line in file.readlines()[1:]:
+            for line in file.readlines():
                 if (line != '\n'):
                     line = line.split(' ')
                     a = int(line[0])
