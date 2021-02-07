@@ -7,17 +7,13 @@ class Solver:
         self.vehicule_rides = None
         self.total_score = 0
 
-    def get_distance(self, a: Tuple, b: Tuple) -> int:
-        distance = abs(a[0] - b[0]) + abs(a[1]-b[1])
-        return distance
-
     def get_score(self, current_step, start_position: Tuple, ride: Tuple) -> Tuple:
         score = 0
 
         earliest_start = ride[4]
         latest_finish = ride[5]
-        distance_from_ride = self.get_distance(start_position, (ride[0], ride[1]))
-        ride_duration = self.get_distance((ride[0], ride[1]), (ride[2], ride[3]))
+        distance_from_ride = abs(start_position[0] - ride[0]) + abs(start_position[1] - ride[1])
+        ride_duration = abs(ride[0] - ride[2]) + abs(ride[1] - ride[3])
 
         if current_step + distance_from_ride > earliest_start:
             start_step = current_step + distance_from_ride
