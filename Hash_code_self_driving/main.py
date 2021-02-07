@@ -1,5 +1,6 @@
 from Problem import Problem
 from Solver import Solver
+from os import mkdir
 
 if __name__ == '__main__':
     problem_names = [
@@ -9,6 +10,10 @@ if __name__ == '__main__':
         "d_metropolis",
         "e_high_bonus"
     ]
+    try:
+        mkdir("Solutions")
+    except OSError:
+        pass
     for problem_name in problem_names:
         problem = Problem.get_from_file(f"Problems/{problem_name}.in")
         solver = Solver(problem)
