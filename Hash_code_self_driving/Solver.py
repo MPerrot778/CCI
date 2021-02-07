@@ -9,7 +9,7 @@ class Solver:
         distance = abs(a[0] - b[0]) + abs(a[1]-b[1])
         return distance
 
-    def get_score(self, current_step, start_position: Tuple, ride: Tuple) -> int:
+    def get_score(self, current_step, start_position: Tuple, ride: Tuple) -> Tuple:
         score = 0
 
         distance_from_ride = self.get_distance(start_position, (ride[0], ride[1]))
@@ -17,9 +17,8 @@ class Solver:
             score += self.problem.B
 
         ride_duration = self.get_distance((ride[0], ride[1]), (ride[2], ride[3]))
-        # TODO: take into consideration arrival time
         if(current_step + ride_duration) > ride[5]:
-            return None
+            return None, 0
 
         score += ride_duration
         score -= distance_from_ride
