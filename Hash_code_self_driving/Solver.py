@@ -60,7 +60,7 @@ class Solver:
         f = open(file_name,'w')
         for i in range(self.problem.F):
             f.write("%d " % len(self.vehicule_rides[i]))
-            f.writelines(["%d" % item  for item in self.vehicule_rides[i]])
+            f.writelines(["%d " % item  for item in self.vehicule_rides[i]])
             f.write("\n")
         f.close()
 
