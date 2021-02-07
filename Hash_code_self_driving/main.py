@@ -7,4 +7,5 @@ if __name__ == '__main__':
     solver.solve()
     print(solver.vehicule_rides)
     solver.submit("out.txt")
+    solver.submitSuperBoostedAmelioré("NouveauOutputParceQueFredAimaitPasLAncien.txt")
     print("score", solver.total_score)
